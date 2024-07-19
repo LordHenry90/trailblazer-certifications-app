@@ -4,8 +4,9 @@
 }
 
 .certification-logo-details {
+  display: block;
+  margin: 0 auto 20px auto;
   max-width: 150px;
-  margin-bottom: 20px;
 }
 
 .certification-info {
@@ -27,4 +28,5 @@
   margin-top: 10px;
   color: #0070d2;
   text-decoration: underline;
+  text-align: center;
 }
