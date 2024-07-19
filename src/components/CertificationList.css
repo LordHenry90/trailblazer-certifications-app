@@ -1,0 +1,28 @@
+.certification-list {
+  padding: 20px;
+}
+
+.certification-card {
+  margin-bottom: 20px;
+}
+
+.certification-logo {
+  max-width: 100px;
+  margin: 0 auto;
+}
+
+.certification-card .slds-box {
+  text-align: center;
+}
+
+.certification-card h5 {
+  margin: 10px 0;
+}
+
+.certification-card p {
+  margin: 10px 0;
+}
+
+.certification-card button {
+  margin-top: 10px;
+}

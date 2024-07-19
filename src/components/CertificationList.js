@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CertificationDetails from './CertificationDetails';
+import './CertificationList.css';
 
 const CertificationList = ({ trailblazer }) => {
   const [certifications, setCertifications] = useState([]);
@@ -33,14 +34,14 @@ const CertificationList = ({ trailblazer }) => {
   const handleClose = () => setShow(false);
 
   return (
-    <div className="slds-p-around_medium">
+    <div className="certification-list">
       {error && <p className="slds-text-color_error">{error}</p>}
       <h2>{`${trailblazer.firstName} ${trailblazer.lastName}`} - <a href={trailblazer.profileUrl} target="_blank" rel="noopener noreferrer">{trailblazer.profileUrl}</a></h2>
       <div className="slds-grid slds-wrap slds-gutters">
         {certifications && certifications.map((cert, index) => (
-          <div key={index} className="slds-col slds-size_1-of-3">
+          <div key={index} className="slds-col slds-size_1-of-3 certification-card">
             <div className="slds-box slds-theme_default">
-              <img src={cert.certificationImageUrl} alt={cert.title} className="slds-image" />
+              <img src={cert.certificationImageUrl} alt={cert.title} className="slds-image certification-logo" />
               <div className="slds-box">
                 <h5 className="slds-text-heading_small">{cert.title}</h5>
                 <p className="slds-text-body_regular">
