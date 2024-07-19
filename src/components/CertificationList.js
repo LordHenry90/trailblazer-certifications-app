@@ -11,9 +11,12 @@ const CertificationList = ({ trailblazer }) => {
   useEffect(() => {
     const fetchCertifications = async () => {
       try {
+        console.log(`Fetching certifications for trailblazer ID: ${trailblazer.id}`);
         const response = await axios.get(`/api/trailblazer/${trailblazer.id}/certifications`);
-        setCertifications(response.data.certificationsList);
+        console.log('API response:', response.data);
+        setCertifications(response.data.certificationsList || []);
       } catch (error) {
+        console.error('Error fetching certifications:', error);
         setError('Failed to load certifications. Please try again later.');
         setCertifications([]); // Ensure certifications is set to an empty array on error
       }
