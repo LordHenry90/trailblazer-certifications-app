@@ -1,3 +1,4 @@
+// src/components/CertificationList.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CertificationDetails from './CertificationDetails';
@@ -11,7 +12,7 @@ const CertificationList = ({ trailblazer }) => {
   useEffect(() => {
     const fetchCertifications = async () => {
       try {
-        const response = await axios.get(`https://go-trailhead-leaderboard-api.up.railway.app/trailblazer/${trailblazer.id}/certifications`);
+        const response = await axios.get(`/api/trailblazer/${trailblazer.id}/certifications`);
         setCertifications(response.data.certificationsList);
       } catch (error) {
         setError('Failed to load certifications. Please try again later.');
