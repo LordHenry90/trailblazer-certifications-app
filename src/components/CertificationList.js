@@ -1,4 +1,3 @@
-// src/components/CertificationList.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CertificationDetails from './CertificationDetails';
@@ -16,6 +15,7 @@ const CertificationList = ({ trailblazer }) => {
         setCertifications(response.data.certificationsList);
       } catch (error) {
         setError('Failed to load certifications. Please try again later.');
+        setCertifications([]); // Ensure certifications is set to an empty array on error
       }
     };
 
@@ -34,7 +34,7 @@ const CertificationList = ({ trailblazer }) => {
       {error && <p className="slds-text-color_error">{error}</p>}
       <h2>{`${trailblazer.firstName} ${trailblazer.lastName}`} - <a href={trailblazer.profileUrl} target="_blank" rel="noopener noreferrer">{trailblazer.profileUrl}</a></h2>
       <div className="slds-grid slds-wrap slds-gutters">
-        {certifications.map((cert, index) => (
+        {certifications && certifications.map((cert, index) => (
           <div key={index} className="slds-col slds-size_1-of-3">
             <div className="slds-box slds-theme_default">
               <img src={cert.certificationImageUrl} alt={cert.title} className="slds-image" />
