@@ -1,0 +1,19 @@
+.trailblazer-profile {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.trailblazer-name {
+  font-size: 1.5em;
+  margin: 0;
+}
+
+.trailblazer-url {
+  color: #0070d2;
+  text-decoration: none;
+  font-size: 1em;
+}
+
+.trailblazer-url:hover {
+  text-decoration: underline;
+}

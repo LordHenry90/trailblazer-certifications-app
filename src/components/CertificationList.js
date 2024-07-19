@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CertificationDetails from './CertificationDetails';
+import TrailblazerProfile from './TrailblazerProfile';
 import './CertificationList.css';
 
 const CertificationList = ({ trailblazer }) => {
@@ -36,7 +37,11 @@ const CertificationList = ({ trailblazer }) => {
   return (
     <div className="certification-list">
       {error && <p className="slds-text-color_error">{error}</p>}
-      <h2>{`${trailblazer.firstName} ${trailblazer.lastName}`} - <a href={trailblazer.profileUrl} target="_blank" rel="noopener noreferrer">{trailblazer.profileUrl}</a></h2>
+      <TrailblazerProfile
+        firstName={trailblazer.firstName}
+        lastName={trailblazer.lastName}
+        profileUrl={trailblazer.profileUrl}
+      />
       <table className="slds-table slds-table_bordered slds-table_cell-buffer slds-table_col-bordered">
         <thead>
           <tr className="slds-line-height_reset">

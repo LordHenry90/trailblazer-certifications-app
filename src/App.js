@@ -1,8 +1,11 @@
+// Author: Enrico Notaro
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Parser } from 'json2csv';
 import CertificationList from './components/CertificationList';
 import trailblazerData from './trailblazerData.json';
+import Footer from './components/Footer';
 import './App.css';
 
 const App = () => {
@@ -53,6 +56,7 @@ const App = () => {
       {profiles.map((profile, index) => (
         <CertificationList key={index} trailblazer={profile} />
       ))}
+      <Footer />
     </div>
   );
 };
