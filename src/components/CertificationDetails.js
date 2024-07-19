@@ -10,7 +10,7 @@ const CertificationDetails = ({ certification }) => {
       <div className="certification-info">
         <p><strong>Date Completed:</strong> {new Date(certification.dateCompleted).toLocaleDateString()}</p>
         {certification.dateExpired && <p><strong>Date Expired:</strong> {new Date(certification.dateExpired).toLocaleDateString()}</p>}
-        <p><strong>Status:</strong> {certification.certificationStatus}</p>
+        <p><strong>Status:</strong> <span className={`slds-badge ${certification.certificationStatus === 'ACTIVE' ? 'slds-theme_success' : 'slds-theme_error'}`}>{certification.certificationStatus}</span></p>
         <a href={certification.certificationUrl} target="_blank" rel="noopener noreferrer">View Certification</a>
       </div>
     </div>
