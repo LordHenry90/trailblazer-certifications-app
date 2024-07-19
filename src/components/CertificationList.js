@@ -37,25 +37,50 @@ const CertificationList = ({ trailblazer }) => {
     <div className="certification-list">
       {error && <p className="slds-text-color_error">{error}</p>}
       <h2>{`${trailblazer.firstName} ${trailblazer.lastName}`} - <a href={trailblazer.profileUrl} target="_blank" rel="noopener noreferrer">{trailblazer.profileUrl}</a></h2>
-      <div className="slds-grid slds-wrap slds-gutters">
-        {certifications && certifications.map((cert, index) => (
-          <div key={index} className="slds-col slds-size_1-of-3 certification-card">
-            <div className="slds-box slds-theme_default">
-              <img src={cert.certificationImageUrl} alt={cert.title} className="slds-image certification-logo" />
-              <div className="slds-box">
-                <h5 className="slds-text-heading_small">{cert.title}</h5>
-                <p className="slds-text-body_regular">
-                  Completed on: {new Date(cert.dateCompleted).toLocaleDateString()}<br />
-                  <span className={`slds-badge ${cert.certificationStatus === 'ACTIVE' ? 'slds-theme_success' : 'slds-theme_error'}`}>
-                    {cert.certificationStatus}
-                  </span>
-                </p>
+      <table className="slds-table slds-table_bordered slds-table_cell-buffer slds-table_col-bordered">
+        <thead>
+          <tr className="slds-line-height_reset">
+            <th scope="col">
+              <div className="slds-truncate" title="Logo">Logo</div>
+            </th>
+            <th scope="col">
+              <div className="slds-truncate" title="Title">Title</div>
+            </th>
+            <th scope="col">
+              <div className="slds-truncate" title="Date Completed">Date Completed</div>
+            </th>
+            <th scope="col">
+              <div className="slds-truncate" title="Status">Status</div>
+            </th>
+            <th scope="col">
+              <div className="slds-truncate" title="Actions">Actions</div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {certifications.map((cert, index) => (
+            <tr key={index} className="slds-hint-parent">
+              <td>
+                <img src={cert.certificationImageUrl} alt={cert.title} className="certification-logo" />
+              </td>
+              <td>
+                <div className="slds-truncate" title={cert.title}>{cert.title}</div>
+              </td>
+              <td>
+                <div className="slds-truncate" title={new Date(cert.dateCompleted).toLocaleDateString()}>{new Date(cert.dateCompleted).toLocaleDateString()}</div>
+              </td>
+              <td>
+                <span className={`slds-badge ${cert.certificationStatus === 'ACTIVE' ? 'slds-theme_success' : 'slds-theme_error'}`}>
+                  {cert.certificationStatus}
+                </span>
+              </td>
+              <td>
                 <button className="slds-button slds-button_brand" onClick={() => handleShow(cert)}>More Details</button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
       {show && (
         <div className="slds-modal slds-fade-in-open">

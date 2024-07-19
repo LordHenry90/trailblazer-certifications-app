@@ -2,36 +2,6 @@
   padding: 20px;
 }
 
-.certification-card {
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.certification-logo {
-  max-width: 100px;
-  margin-bottom: 10px;
-}
-
-.certification-card .slds-box {
-  text-align: center;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.certification-card h5 {
-  margin: 10px 0;
-}
-
-.certification-card p {
-  margin: 10px 0;
-}
-
-.certification-card button {
-  margin-top: 10px;
-}
-
 .slds-modal__container {
   max-width: 600px;
 }
@@ -49,4 +19,8 @@
 .slds-modal__footer {
   display: flex;
   justify-content: center;
+}
+
+.certification-logo {
+  max-width: 50px;
 }
