@@ -61,13 +61,13 @@ const CertificationList = ({ trailblazer }) => {
         <div className="slds-modal slds-fade-in-open">
           <div className="slds-modal__container">
             <div className="slds-modal__header">
+              <h2 className="slds-text-heading_medium">Certification Details</h2>
               <button className="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onClick={handleClose}>
                 <svg className="slds-button__icon slds-button__icon_large" aria-hidden="true">
                   <use xlinkHref="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span className="slds-assistive-text">Close</span>
               </button>
-              <h2 className="slds-text-heading_medium">Certification Details</h2>
             </div>
             <div className="slds-modal__content slds-p-around_medium">
               {selectedCertification && <CertificationDetails certification={selectedCertification} />}

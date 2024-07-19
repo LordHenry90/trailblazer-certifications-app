@@ -1,9 +1,10 @@
 import React from 'react';
+import './CertificationDetails.css';
 
 const CertificationDetails = ({ certification }) => {
   return (
-    <div className="slds-box slds-theme_default">
-      <img src={certification.certificationImageUrl} alt={certification.title} className="slds-image" />
+    <div className="certification-details">
+      <img src={certification.certificationImageUrl} alt={certification.title} className="slds-image certification-logo-details" />
       <h3 className="slds-text-heading_medium">{certification.title}</h3>
       <p>{certification.description}</p>
       <p><strong>Date Completed:</strong> {new Date(certification.dateCompleted).toLocaleDateString()}</p>
