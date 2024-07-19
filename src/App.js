@@ -1,25 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import CertificationList from './components/CertificationList';
+import trailblazerData from './trailblazerData.json';
 
-function App() {
+const App = () => {
+  const [profiles, setProfiles] = useState([]);
+
+  useEffect(() => {
+    setProfiles(trailblazerData);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App slds-p-around_medium">
+      {profiles.map((profile, index) => (
+        <CertificationList key={index} trailblazer={profile} />
+      ))}
     </div>
   );
-}
+};
 
 export default App;
