@@ -7,3 +7,20 @@
   max-width: 150px;
   margin-bottom: 20px;
 }
+
+.certification-info {
+  text-align: left;
+  margin: 0 auto;
+  max-width: 400px;
+}
+
+.certification-info p {
+  margin: 10px 0;
+}
+
+.certification-info a {
+  display: block;
+  margin-top: 10px;
+  color: #0070d2;
+  text-decoration: underline;
+}
