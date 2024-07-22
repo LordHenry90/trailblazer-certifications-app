@@ -3,8 +3,9 @@ import { CSVReader } from 'react-papaparse';
 import { Input, Button, Modal, Form } from 'antd';
 import './ActionMenu.css';
 
+const { Search } = Input;
+
 const ActionMenu = ({ onAddNew, onAddMore, onExportCSV, onSearch }) => {
-  const { Search } = Input;
   const buttonRef = useRef();
 
   const handleAddNew = () => {
@@ -41,11 +42,7 @@ const ActionMenu = ({ onAddNew, onAddMore, onExportCSV, onSearch }) => {
         </div>
         <div className="slds-col">
           <CSVReader
-            ref={buttonRef}
             onFileLoad={handleAddMore}
-            noClick
-            noDrag
-            style={{ marginRight: '1rem' }}
           >
             {({ file }) => (
               <Button type="primary" onClick={() => buttonRef.current.open()} className="slds-m-right_small">
