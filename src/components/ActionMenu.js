@@ -1,12 +1,12 @@
 import React, { useRef } from 'react';
-import { CSVReader } from 'react-papaparse';
+import Papa from 'papaparse';
 import { Input, Button, Modal, Form } from 'antd';
 import './ActionMenu.css';
 
 const { Search } = Input;
 
 const ActionMenu = ({ onAddNew, onAddMore, onExportCSV, onSearch }) => {
-  const buttonRef = useRef();
+  const fileInputRef = useRef();
 
   const handleAddNew = () => {
     Modal.confirm({
@@ -30,8 +30,18 @@ const ActionMenu = ({ onAddNew, onAddMore, onExportCSV, onSearch }) => {
     });
   };
 
-  const handleAddMore = (data) => {
-    onAddMore(data);
+  const handleAddMore = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileLoad = (event) => {
+    const file = event.target.files[0];
+    Papa.parse(file, {
+      header: true,
+      complete: (results) => {
+        onAddMore(results.data);
+      },
+    });
   };
 
   return (
@@ -41,15 +51,14 @@ const ActionMenu = ({ onAddNew, onAddMore, onExportCSV, onSearch }) => {
           <Button type="primary" onClick={handleAddNew} className="slds-m-right_small">Add New</Button>
         </div>
         <div className="slds-col">
-          <CSVReader
-            onFileLoad={handleAddMore}
-          >
-            {({ file }) => (
-              <Button type="primary" onClick={() => buttonRef.current.open()} className="slds-m-right_small">
-                Add More
-              </Button>
-            )}
-          </CSVReader>
+          <input
+            type="file"
+            accept=".csv"
+            ref={fileInputRef}
+            style={{ display: 'none' }}
+            onChange={handleFileLoad}
+          />
+          <Button type="primary" onClick={handleAddMore} className="slds-m-right_small">Add More</Button>
         </div>
         <div className="slds-col">
           <Button type="primary" onClick={onExportCSV} className="slds-m-right_small">Export All to CSV</Button>
