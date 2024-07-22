@@ -1,11 +1,12 @@
-const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 const path = require('path');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    publicPath: '/'
   },
   module: {
     rules: [
@@ -33,11 +34,11 @@ module.exports = {
     extensions: ['.js', '.jsx'],
     fallback: {
       "stream": require.resolve("stream-browserify"),
+      "os": require.resolve("os-browserify/browser"),
       "crypto": require.resolve("crypto-browserify"),
       "buffer": require.resolve("buffer/"),
       "http": require.resolve("stream-http"),
       "https": require.resolve("https-browserify"),
-      "os": require.resolve("os-browserify/browser"),
       "url": require.resolve("url/")
     }
   },
@@ -49,6 +50,8 @@ module.exports = {
       directory: path.join(__dirname, 'public')
     },
     compress: true,
-    port: 3000
+    port: 3002,
+    historyApiFallback: true,
+    hot: true
   }
 };
