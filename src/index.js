@@ -2,7 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import './index.css';
-import 'antd/dist/antd.css';  // Importare lo stile di antd
+// Prova entrambi i percorsi per vedere quale funziona
+import 'antd/dist/antd.css';  // Percorso classico
+// import 'antd/dist/reset.css';  // Nuovo percorso (se applicabile)
 
 ReactDOM.render(
   <React.StrictMode>
