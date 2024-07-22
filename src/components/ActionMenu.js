@@ -32,7 +32,12 @@ const ActionMenu = ({ onAddNew, onAddMore, onExportCSV, onSearch }) => {
       </Modal>
 
       <Modal title="Add More Trailblazers" visible={isCSVModalVisible} onCancel={() => setIsCSVModalVisible(false)} footer={null}>
-        <CSVReader onFileLoad={handleAddMore}>
+        <CSVReader
+          onDrop={handleAddMore}
+          onError={(err) => console.error(err)}
+          addRemoveButton
+          removeButtonColor='#659cef'
+        >
           <span>Drop CSV file here or click to upload.</span>
         </CSVReader>
       </Modal>
