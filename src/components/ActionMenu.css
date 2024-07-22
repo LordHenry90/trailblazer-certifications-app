@@ -1,0 +1,17 @@
+.action-menu {
+  margin-bottom: 2rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.slds-grid > .slds-col {
+  margin-right: 1rem;
+}
+
+.slds-grid > .slds-col:last-child {
+  margin-right: 0;
+}
+
+.slds-grid {
+  align-items: center;
+}

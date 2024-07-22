@@ -1,57 +1,71 @@
-import React, { useState } from 'react';
-import { usePapaParse } from 'react-papaparse';
-import { Modal, Button, Input, Upload, message } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import React, { useRef } from 'react';
+import { CSVReader } from 'react-papaparse';
+import { Input, Button, Modal, Form } from 'antd';
+import './ActionMenu.css';
 
 const ActionMenu = ({ onAddNew, onAddMore, onExportCSV, onSearch }) => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isCSVModalVisible, setIsCSVModalVisible] = useState(false);
-  const [newTrailblazer, setNewTrailblazer] = useState({ firstName: '', lastName: '', profileUrl: '' });
-
-  const { readString } = usePapaParse();
+  const { Search } = Input;
+  const buttonRef = useRef();
 
   const handleAddNew = () => {
-    onAddNew(newTrailblazer);
-    setIsModalVisible(false);
-    setNewTrailblazer({ firstName: '', lastName: '', profileUrl: '' });
+    Modal.confirm({
+      title: 'Add New Trailblazer',
+      content: (
+        <Form layout="vertical" onFinish={onAddNew}>
+          <Form.Item name="firstName" label="First Name" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item name="lastName" label="Last Name" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item name="profileUrl" label="Profile URL" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+        </Form>
+      ),
+      onOk() {
+        document.querySelector('.ant-form').dispatchEvent(new Event('submit', { cancelable: true }));
+      },
+    });
   };
 
-  const handleCSVUpload = (info) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const csvData = e.target.result;
-      readString(csvData, {
-        header: true,
-        complete: (results) => {
-          onAddMore(results.data);
-          setIsCSVModalVisible(false);
-        },
-        error: (error) => {
-          message.error('Error reading CSV file: ' + error.message);
-        },
-      });
-    };
-    reader.readAsText(info.file);
+  const handleAddMore = (data) => {
+    onAddMore(data);
   };
 
   return (
-    <div className="action-menu">
-      <Button type="primary" onClick={() => setIsModalVisible(true)}>Add New</Button>
-      <Button type="primary" onClick={() => setIsCSVModalVisible(true)}>Add More</Button>
-      <Button type="primary" onClick={onExportCSV}>Export All to CSV</Button>
-      <Input.Search placeholder="Search Trailblazer" onSearch={onSearch} style={{ width: 200 }} />
-
-      <Modal title="Add New Trailblazer" visible={isModalVisible} onOk={handleAddNew} onCancel={() => setIsModalVisible(false)}>
-        <Input placeholder="First Name" value={newTrailblazer.firstName} onChange={(e) => setNewTrailblazer({ ...newTrailblazer, firstName: e.target.value })} />
-        <Input placeholder="Last Name" value={newTrailblazer.lastName} onChange={(e) => setNewTrailblazer({ ...newTrailblazer, lastName: e.target.value })} />
-        <Input placeholder="Profile URL" value={newTrailblazer.profileUrl} onChange={(e) => setNewTrailblazer({ ...newTrailblazer, profileUrl: e.target.value })} />
-      </Modal>
-
-      <Modal title="Add More Trailblazers" visible={isCSVModalVisible} onCancel={() => setIsCSVModalVisible(false)} footer={null}>
-        <Upload accept=".csv" showUploadList={false} beforeUpload={(file) => { handleCSVUpload({ file }); return false; }}>
-          <Button icon={<UploadOutlined />}>Upload CSV</Button>
-        </Upload>
-      </Modal>
+    <div className="slds-box slds-theme_shade slds-p-around_medium action-menu">
+      <div className="slds-grid slds-gutters">
+        <div className="slds-col">
+          <Button type="primary" onClick={handleAddNew} className="slds-m-right_small">Add New</Button>
+        </div>
+        <div className="slds-col">
+          <CSVReader
+            ref={buttonRef}
+            onFileLoad={handleAddMore}
+            noClick
+            noDrag
+            style={{ marginRight: '1rem' }}
+          >
+            {({ file }) => (
+              <Button type="primary" onClick={() => buttonRef.current.open()} className="slds-m-right_small">
+                Add More
+              </Button>
+            )}
+          </CSVReader>
+        </div>
+        <div className="slds-col">
+          <Button type="primary" onClick={onExportCSV} className="slds-m-right_small">Export All to CSV</Button>
+        </div>
+        <div className="slds-col slds-grow">
+          <Search
+            placeholder="Search Trailblazer"
+            onSearch={onSearch}
+            enterButton
+            className="slds-m-left_small"
+          />
+        </div>
+      </div>
     </div>
   );
 };

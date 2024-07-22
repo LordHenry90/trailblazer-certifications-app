@@ -4,6 +4,8 @@ import { Parser } from 'json2csv';
 import CertificationList from './components/CertificationList';
 import ActionMenu from './components/ActionMenu';
 import './App.css';
+import 'antd/dist/antd.css';
+import '@salesforce-ux/design-system/assets/styles/salesforce-lightning-design-system.css';
 
 const App = () => {
   const [profiles, setProfiles] = useState([]);
