@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { CSVReader } from 'react-papaparse';
-import { Modal, Button, Input } from 'antd';
+import { usePapaParse } from 'react-papaparse';
+import { Modal, Button, Input, Upload, message } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 
 const ActionMenu = ({ onAddNew, onAddMore, onExportCSV, onSearch }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isCSVModalVisible, setIsCSVModalVisible] = useState(false);
   const [newTrailblazer, setNewTrailblazer] = useState({ firstName: '', lastName: '', profileUrl: '' });
+
+  const { readString } = usePapaParse();
 
   const handleAddNew = () => {
     onAddNew(newTrailblazer);
@@ -13,9 +16,22 @@ const ActionMenu = ({ onAddNew, onAddMore, onExportCSV, onSearch }) => {
     setNewTrailblazer({ firstName: '', lastName: '', profileUrl: '' });
   };
 
-  const handleAddMore = (data) => {
-    onAddMore(data);
-    setIsCSVModalVisible(false);
+  const handleCSVUpload = (info) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const csvData = e.target.result;
+      readString(csvData, {
+        header: true,
+        complete: (results) => {
+          onAddMore(results.data);
+          setIsCSVModalVisible(false);
+        },
+        error: (error) => {
+          message.error('Error reading CSV file: ' + error.message);
+        },
+      });
+    };
+    reader.readAsText(info.file);
   };
 
   return (
@@ -32,14 +48,9 @@ const ActionMenu = ({ onAddNew, onAddMore, onExportCSV, onSearch }) => {
       </Modal>
 
       <Modal title="Add More Trailblazers" visible={isCSVModalVisible} onCancel={() => setIsCSVModalVisible(false)} footer={null}>
-        <CSVReader
-          onDrop={handleAddMore}
-          onError={(err) => console.error(err)}
-          addRemoveButton
-          removeButtonColor='#659cef'
-        >
-          <span>Drop CSV file here or click to upload.</span>
-        </CSVReader>
+        <Upload accept=".csv" showUploadList={false} beforeUpload={(file) => { handleCSVUpload({ file }); return false; }}>
+          <Button icon={<UploadOutlined />}>Upload CSV</Button>
+        </Upload>
       </Modal>
     </div>
   );

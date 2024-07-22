@@ -72,10 +72,10 @@ const App = () => {
 
   const handleAddMore = async (data) => {
     const newTrailblazers = data.map(item => ({
-      id: item.data.id,
-      firstName: item.data.firstName,
-      lastName: item.data.lastName,
-      profileUrl: item.data.profileUrl
+      id: item.id,
+      firstName: item.firstName,
+      lastName: item.lastName,
+      profileUrl: item.profileUrl
     }));
     const updatedProfiles = [...profiles, ...newTrailblazers];
     setProfiles(updatedProfiles);
