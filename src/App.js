@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Parser } from 'json2csv';
 import CertificationList from './components/CertificationList';
 import ActionMenu from './components/ActionMenu';
+import Footer from './components/Footer';
 import './App.css';
 
 const App = () => {
@@ -107,6 +108,7 @@ const App = () => {
       {filteredProfiles.map((profile, index) => (
         <CertificationList key={index} trailblazer={profile} />
       ))}
+	  <Footer />
     </div>
   );
 };
