@@ -1,12 +1,8 @@
+import '@salesforce-ux/design-system/assets/styles/salesforce-lightning-design-system.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import './index.css';
-
-// Prova entrambi i percorsi per vedere quale funziona
-//import 'antd/dist/antd.css';  // Percorso classico
-// import 'antd/dist/antd.min.css';  // Percorso alternativo
-import 'antd/dist/reset.css';  // Nuovo percorso (se applicabile)
+import App from './App';
 
 ReactDOM.render(
   <React.StrictMode>
