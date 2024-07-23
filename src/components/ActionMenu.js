@@ -46,11 +46,11 @@ const ActionMenu = ({ onAddNew, onAddMore, onExportCSV, onSearch }) => {
 
   return (
     <div className="slds-box slds-theme_shade slds-p-around_medium action-menu">
-      <div className="slds-grid slds-gutters">
-        <div className="slds-col">
+      <div className="slds-grid slds-wrap slds-gutters">
+        <div className="slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-p-around_small">
           <Button type="primary" onClick={handleAddNew} className="slds-m-right_small">Add New</Button>
         </div>
-        <div className="slds-col">
+        <div className="slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-p-around_small">
           <input
             type="file"
             accept=".csv"
@@ -60,10 +60,10 @@ const ActionMenu = ({ onAddNew, onAddMore, onExportCSV, onSearch }) => {
           />
           <Button type="primary" onClick={handleAddMore} className="slds-m-right_small">Add More</Button>
         </div>
-        <div className="slds-col">
+        <div className="slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-p-around_small">
           <Button type="primary" onClick={onExportCSV} className="slds-m-right_small">Export All to CSV</Button>
         </div>
-        <div className="slds-col slds-grow">
+        <div className="slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-p-around_small">
           <Search
             placeholder="Search Trailblazer"
             onSearch={onSearch}
