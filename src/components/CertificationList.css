@@ -24,3 +24,24 @@
 .certification-logo {
   max-width: 50px;
 }
+.slds-table {
+  border: 1px solid #d8dde6;
+  border-radius: 0.25rem;
+}
+
+.slds-table thead {
+  background-color: #f3f2f2;
+}
+
+.slds-table th,
+.slds-table td {
+  border: 1px solid #d8dde6;
+}
+
+.slds-table th {
+  font-weight: bold;
+}
+
+.slds-table tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}

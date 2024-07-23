@@ -22,6 +22,9 @@ const ActionMenu = ({ onAddNew, onAddMore, onExportCSV, onSearch }) => {
           <Form.Item name="profileUrl" label="Profile URL" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
+		  <Form.Item name="id" label="Profile Id" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
         </Form>
       ),
       onOk() {
@@ -47,10 +50,10 @@ const ActionMenu = ({ onAddNew, onAddMore, onExportCSV, onSearch }) => {
   return (
     <div className="slds-box slds-theme_shade slds-p-around_medium action-menu">
       <div className="slds-grid slds-wrap slds-gutters">
-        <div className="slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-p-around_small">
+        <div className="slds-col slds-size_1-of-1 slds-small-size_1-of-12">
           <Button type="primary" onClick={handleAddNew} className="slds-m-right_small">Add New</Button>
         </div>
-        <div className="slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-p-around_small">
+        <div className="slds-col slds-size_1-of-1 slds-small-size_1-of-12">
           <input
             type="file"
             accept=".csv"
@@ -60,15 +63,17 @@ const ActionMenu = ({ onAddNew, onAddMore, onExportCSV, onSearch }) => {
           />
           <Button type="primary" onClick={handleAddMore} className="slds-m-right_small">Add More</Button>
         </div>
-        <div className="slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-p-around_small">
+        <div className="slds-col slds-size_1-of-1 slds-small-size_1-of-12">
           <Button type="primary" onClick={onExportCSV} className="slds-m-right_small">Export All to CSV</Button>
         </div>
-        <div className="slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-p-around_small">
+		<div className="slds-col slds-size_1-of-1 slds-small-size_1-of-3">
+        </div>
+        <div className="slds-col slds-size_1-of-1 slds-small-size_1-of-3">
           <Search
             placeholder="Search Trailblazer"
             onSearch={onSearch}
             enterButton
-            className="slds-m-left_small"
+            block
           />
         </div>
       </div>
