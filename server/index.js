@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(bodyParser.json());
 
+
 const trailblazerDataPath = path.join(__dirname, '../src/trailblazerData.json');
 
 // API endpoint per ottenere i dati dei Trailblazers
