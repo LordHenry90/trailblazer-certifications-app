@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Parser } from 'json2csv';
-import CertificationList from './components/CertificationList';
+import TrailblazerTable from './components/TrailblazerTable';
 import ActionMenu from './components/ActionMenu';
 import Footer from './components/Footer';
 import './App.css';
@@ -106,7 +106,7 @@ const App = () => {
         onSearch={handleSearch}
       />
       {filteredProfiles.map((profile, index) => (
-        <CertificationList key={index} trailblazer={profile} />
+        <TrailblazerTable key={index} trailblazer={profile} />
       ))}
 	  <Footer />
     </div>

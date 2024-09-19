@@ -1,0 +1,48 @@
+.trailblazers-list {
+    padding: 20px;
+  }
+  
+  .slds-modal__container {
+    max-width: 600px;
+  }
+  
+  .slds-modal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .slds-modal__content {
+    text-align: center;
+  }
+  
+  .slds-modal__footer {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .certification-logo {
+    max-width: 50px;
+  }
+  .slds-table {
+    border: 1px solid #d8dde6;
+    border-radius: 0.25rem;
+  }
+  
+  .slds-table thead {
+    background-color: #f3f2f2;
+  }
+  
+  .slds-table th,
+  .slds-table td {
+    border: 1px solid #d8dde6;
+  }
+  
+  .slds-table th {
+    font-weight: bold;
+  }
+  
+  .slds-table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+  }
+  
