@@ -93,9 +93,6 @@ useEffect(() => {
     }
   };
 
-  const handleSearch = (value) => {
-    setSearchTerm(value);
-  };
 
   const filteredProfiles = profiles.filter(profile =>
     profile.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
