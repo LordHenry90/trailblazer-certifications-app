@@ -9,7 +9,7 @@ const CertificationDetails = ({ certification }) => {
       <p className="slds-text-body_regular">{certification.Description}</p>
       <div className="certification-info">
         <p><strong>Date Completed:</strong> {new Date(certification.DateCompleted).toLocaleDateString()}</p>
-        {certification.dateExpired && <p><strong>Date Expired:</strong> {new Date(certification.DateExpired).toLocaleDateString()}</p>}
+        {certification.DateExpired && <p><strong>Date Expired:</strong> {new Date(certification.DateExpired).toLocaleDateString()}</p>}
         <p><strong>Status:</strong> <span className={`slds-badge ${certification.CertificationStatus === 'ACTIVE' ? 'slds-theme_success' : 'slds-theme_error'}`}>{certification.CertificationStatus}</span></p>
         <a href={certification.CertificationUrl} target="_blank" rel="noopener noreferrer">View Certification</a>
       </div>
