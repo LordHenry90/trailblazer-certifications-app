@@ -30,7 +30,7 @@ useEffect(() => {
     for (const trailblazer of profiles) {
       try {
         const response = await axios.get(`/api/trailblazer/${trailblazer.id}/certifications`);
-        
+        console.log(response);
         // Controlliamo se certificationsList è presente e se è un array
         if (response.data && Array.isArray(response.data.certificationsList)) {
           const trailblazerCertifications = response.data.certificationsList.map(cert => ({
