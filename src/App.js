@@ -109,11 +109,8 @@ useEffect(() => {
         onAddNew={handleAddNew}
         onAddMore={handleAddMore}
         onExportCSV={handleExportCSV}
-        onSearch={handleSearch}
       />
-      {filteredProfiles.map((profile, index) => (
-        <TrailblazerTable key={index} trailblazer={profile} />
-      ))}
+        <TrailblazerTable trailblazers={filteredProfiles} />
 	  <Footer />
     </div>
   );
