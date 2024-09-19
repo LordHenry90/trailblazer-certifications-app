@@ -24,31 +24,37 @@ const App = () => {
     fetchProfiles();
   }, []);
 
-  useEffect(() => {
-    const fetchCertifications = async () => {
-      const certifications = [];
-      for (const trailblazer of profiles) {
-        try {
-          const response = await axios.get(`/api/trailblazer/${trailblazer.id}/certifications`);
-          const trailblazerCertifications = response.data.certificationsList.map(cert => ({
+useEffect(() => {
+  const fetchCertifications = async () => {
+    const certifications = [];
+    for (const trailblazer of profiles) {
+      try {
+        const response = await axios.get(`/api/trailblazer/${trailblazer.id}/certifications`);
+        console.log(response);
+        // Controlliamo se certificationsList è presente e se è un array
+        if (response.data && Array.isArray(response.data.CertificationsList)) {
+          const trailblazerCertifications = response.data.CertificationsList.map(cert => ({
             firstName: trailblazer.firstName,
             lastName: trailblazer.lastName,
             profileUrl: trailblazer.profileUrl,
             ...cert
           }));
           certifications.push(...trailblazerCertifications);
-        } catch (error) {
-          console.error(`Error fetching certifications for ${trailblazer.firstName} ${trailblazer.lastName}:`, error);
+        } else {
+          console.error(`Certifications list is missing for ${trailblazer.firstName} ${trailblazer.lastName}`);
         }
+      } catch (error) {
+        console.error(`Error fetching certifications for ${trailblazer.firstName} ${trailblazer.lastName}:`, error);
       }
-      setAllCertifications(certifications);
-    };
+    }
+    setAllCertifications(certifications);
+  };
 
-    fetchCertifications();
-  }, [profiles]);
+  fetchCertifications();
+}, [profiles]);
 
   const handleExportCSV = () => {
-    const fields = ['firstName', 'lastName', 'profileUrl', 'title', 'certificationImageUrl', 'dateCompleted', 'certificationStatus', 'certificationUrl', 'description', 'dateExpired'];
+    const fields = ['firstName', 'lastName', 'profileUrl', 'Title', 'CertificationImageUrl', 'DateCompleted', 'CertificationStatus', 'CertificationUrl', 'Description', 'DateExpired'];
     const json2csvParser = new Parser({ fields });
     const csv = json2csvParser.parse(allCertifications);
     
