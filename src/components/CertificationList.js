@@ -66,7 +66,7 @@ const CertificationList = ({ trailblazer }) => {
           {certifications.map((cert, index) => (
             <tr key={index} className="slds-hint-parent">
               <td>
-                <img src={cert.certificationImageUrl} alt={cert.Title} className="certification-logo" />
+                <img src={cert.CertificationImageUrl} alt={cert.Title} className="certification-logo" />
               </td>
               <td>
                 <div className="slds-truncate" title={cert.Title}>{cert.Title}</div>
@@ -75,7 +75,7 @@ const CertificationList = ({ trailblazer }) => {
                 <div className="slds-truncate" title={new Date(cert.DateCompleted).toLocaleDateString()}>{new Date(cert.DateCompleted).toLocaleDateString()}</div>
               </td>
               <td>
-                <span className={`slds-badge ${cert.CertificationStatus === 'ACTIVE' ? 'slds-theme_success' : 'slds-theme_error'}`}>
+                <span className={`slds-badge ${cert.CertificationStatus === 'Active' ? 'slds-theme_success' : 'slds-theme_error'}`}>
                   {cert.CertificationStatus}
                 </span>
               </td>
