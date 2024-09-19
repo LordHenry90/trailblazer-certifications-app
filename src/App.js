@@ -54,7 +54,7 @@ useEffect(() => {
 }, [profiles]);
 
   const handleExportCSV = () => {
-    const fields = ['firstName', 'lastName', 'profileUrl', 'title', 'certificationImageUrl', 'dateCompleted', 'certificationStatus', 'certificationUrl', 'description', 'dateExpired'];
+    const fields = ['firstName', 'lastName', 'profileUrl', 'Title', 'CertificationImageUrl', 'DateCompleted', 'CertificationStatus', 'CertificationUrl', 'Description', 'DateExpired'];
     const json2csvParser = new Parser({ fields });
     const csv = json2csvParser.parse(allCertifications);
     
