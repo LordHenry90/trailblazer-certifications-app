@@ -24,12 +24,15 @@ const App = () => {
     fetchProfiles();
   }, []);
 
-  useEffect(() => {
-    const fetchCertifications = async () => {
-      const certifications = [];
-      for (const trailblazer of profiles) {
-        try {
-          const response = await axios.get(`/api/trailblazer/${trailblazer.id}/certifications`);
+useEffect(() => {
+  const fetchCertifications = async () => {
+    const certifications = [];
+    for (const trailblazer of profiles) {
+      try {
+        const response = await axios.get(`/api/trailblazer/${trailblazer.id}/certifications`);
+        
+        // Controlliamo se certificationsList è presente e se è un array
+        if (response.data && Array.isArray(response.data.certificationsList)) {
           const trailblazerCertifications = response.data.certificationsList.map(cert => ({
             firstName: trailblazer.firstName,
             lastName: trailblazer.lastName,
@@ -37,15 +40,18 @@ const App = () => {
             ...cert
           }));
           certifications.push(...trailblazerCertifications);
-        } catch (error) {
-          console.error(`Error fetching certifications for ${trailblazer.firstName} ${trailblazer.lastName}:`, error);
+        } else {
+          console.error(`Certifications list is missing for ${trailblazer.firstName} ${trailblazer.lastName}`);
         }
+      } catch (error) {
+        console.error(`Error fetching certifications for ${trailblazer.firstName} ${trailblazer.lastName}:`, error);
       }
-      setAllCertifications(certifications);
-    };
+    }
+    setAllCertifications(certifications);
+  };
 
-    fetchCertifications();
-  }, [profiles]);
+  fetchCertifications();
+}, [profiles]);
 
   const handleExportCSV = () => {
     const fields = ['firstName', 'lastName', 'profileUrl', 'title', 'certificationImageUrl', 'dateCompleted', 'certificationStatus', 'certificationUrl', 'description', 'dateExpired'];
