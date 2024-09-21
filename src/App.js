@@ -106,7 +106,7 @@ const App = () => {
         onSearch={handleSearch}
       />
       {filteredProfiles.map((profile, index) => (
-        <TrailblazerTable key={index} trailblazer={profile} />
+        <TrailblazerTable trailblazer={profile} />
       ))}
 	  <Footer />
     </div>
