@@ -23,6 +23,12 @@ const saveToJSON = (data) => {
   });
 };
 
+// Funzione per confrontare le certificazioni e determinare se ci sono nuove certificazioni
+const getNewCertifications = (existingCertifications, newCertifications) => {
+  const existingTitles = existingCertifications.map(cert => cert.title);
+  return newCertifications.filter(cert => !existingTitles.includes(cert.title));
+};
+
 // API endpoint per ottenere i dati dei Trailblazers
 app.get('/api/trailblazers', (req, res) => {
   fs.readFile(trailblazerDataPath, 'utf8', (err, data) => {
@@ -118,34 +124,37 @@ app.get('/api/trailblazer/:id/certifications', async (req, res) => {
       return res.status(404).json({ message: 'Trailblazer not found' });
     }
 
-    // Controlla se il Trailblazer ha già certificazioni salvate nel JSON
-    if (trailblazer.certifications && trailblazer.certifications.length > 0) {
-      console.log('Certifications found in JSON');
-      return res.json(trailblazer.certifications); // Restituisci le certificazioni dal file JSON
-    } else {
-      try {
-        // Se le certificazioni non sono nel JSON, chiama l'API esterna
-        const externalApiUrl = `https://go-trailhead-leaderboard-api.up.railway.app/trailblazer/${trailblazerId}/certifications`;
-        const externalResponse = await axios.get(externalApiUrl);
+    // Certificazioni esistenti
+    const existingCertifications = trailblazer.certifications || [];
 
-        if (externalResponse.data && Array.isArray(externalResponse.data.certificationsList)) {
-          const certifications = externalResponse.data.certificationsList;
+    try {
+      // Chiamata all'API esterna per ottenere le certificazioni più aggiornate
+      const externalApiUrl = `https://go-trailhead-leaderboard-api.up.railway.app/trailblazer/${trailblazerId}/certifications`;
+      const externalResponse = await axios.get(externalApiUrl);
 
-          // Aggiorna il file JSON con le nuove certificazioni
-          trailblazer.certifications = certifications;
+      if (externalResponse.data && Array.isArray(externalResponse.data.certificationsList)) {
+        const newCertifications = externalResponse.data.certificationsList;
+
+        // Determina se ci sono nuove certificazioni rispetto a quelle esistenti
+        const deltaCertifications = getNewCertifications(existingCertifications, newCertifications);
+
+        if (deltaCertifications.length > 0) {
+          // Aggiungi le nuove certificazioni a quelle esistenti
+          trailblazer.certifications = [...existingCertifications, ...deltaCertifications];
 
           // Salva l'aggiornamento nel file JSON
           await saveToJSON(trailblazers);
-
-          console.log('Certifications fetched from external API and saved to JSON');
-          return res.json(certifications); // Restituisci le nuove certificazioni
-        } else {
-          return res.status(500).json({ message: 'Invalid response from external API' });
+          console.log('New certifications added and saved to JSON');
         }
-      } catch (apiError) {
-        console.error('Error calling external API:', apiError);
-        return res.status(500).json({ message: 'Error fetching certifications from external API' });
+
+        // Restituisci tutte le certificazioni, comprese quelle nuove
+        return res.json(trailblazer.certifications);
+      } else {
+        return res.status(500).json({ message: 'Invalid response from external API' });
       }
+    } catch (apiError) {
+      console.error('Error calling external API:', apiError);
+      return res.status(500).json({ message: 'Error fetching certifications from external API' });
     }
   });
 });
