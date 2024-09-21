@@ -8,18 +8,22 @@ const CertificationList = ({ trailblazer }) => {
   const [certifications, setCertifications] = useState([]);
   const [show, setShow] = useState(false);
   const [selectedCertification, setSelectedCertification] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchCertifications = async () => {
       try {
+        setLoading(true); // Mostra l'indicatore di caricamento
         console.log(`Fetching certifications for trailblazer ID: ${trailblazer.id}`);
         const response = await axios.get(`/api/trailblazer/${trailblazer.id}/certifications`);
         console.log('API response:', response.data);
         setCertifications(response.data.CertificationsList || []);
+        setLoading(false); // Disabilita l'indicatore di caricamento
       } catch (error) {
         console.error('Error fetching certifications:', error);
         setError('Failed to load certifications. Please try again later.');
+        setLoading(false); // Disabilita l'indicatore di caricamento anche in caso di errore
         setCertifications([]); // Ensure certifications is set to an empty array on error
       }
     };
@@ -33,6 +37,19 @@ const CertificationList = ({ trailblazer }) => {
   };
 
   const handleClose = () => setShow(false);
+
+    // Renderizzazione condizionale
+    if (loading) {
+      return <p>Loading certifications...</p>;
+    }
+  
+    if (error) {
+      return <p>{error}</p>;
+    }
+  
+    if (certifications.length === 0) {
+      return <p>No certifications found for this trailblazer.</p>;
+    }
 
   return (
     <div className="certification-list">
