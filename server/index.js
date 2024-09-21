@@ -132,8 +132,8 @@ app.get('/api/trailblazer/:id/certifications', async (req, res) => {
       const externalApiUrl = `https://go-trailhead-leaderboard-api.up.railway.app/trailblazer/${trailblazerId}/certifications`;
       const externalResponse = await axios.get(externalApiUrl);
 
-      if (externalResponse.data && Array.isArray(externalResponse.data.certificationsList)) {
-        const newCertifications = externalResponse.data.certificationsList;
+      if (externalResponse.data && Array.isArray(externalResponse.data.CertificationsList)) {
+        const newCertifications = externalResponse.data.CertificationsList;
 
         // Determina se ci sono nuove certificazioni rispetto a quelle esistenti
         const deltaCertifications = getNewCertifications(existingCertifications, newCertifications);
