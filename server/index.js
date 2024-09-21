@@ -8,7 +8,6 @@ const PORT = process.env.PORT || 5000;
 
 app.use(bodyParser.json());
 
-
 const trailblazerDataPath = path.join(__dirname, '../src/trailblazerData.json');
 
 // API endpoint per ottenere i dati dei Trailblazers
@@ -21,14 +20,70 @@ app.get('/api/trailblazers', (req, res) => {
   });
 });
 
-// API endpoint per aggiornare i dati dei Trailblazers
+// Rotta POST per aggiungere un nuovo Trailblazer
 app.post('/api/trailblazers', (req, res) => {
-  const newTrailblazers = req.body;
-  fs.writeFile(trailblazerDataPath, JSON.stringify(newTrailblazers, null, 2), (err) => {
+  const newTrailblazer = req.body;
+
+  // Leggi il file JSON esistente
+  fs.readFile(trailblazerDataPath, 'utf8', (err, data) => {
     if (err) {
-      return res.status(500).send('Error writing data');
+      return res.status(500).json({ message: 'Error reading trailblazer data' });
     }
-    res.send('Data updated successfully');
+
+    const trailblazers = JSON.parse(data);
+
+    // Verifica se il trailblazer esiste già (ad esempio tramite id o URL)
+    const exists = trailblazers.find(tb => tb.id === newTrailblazer.id);
+    if (exists) {
+      return res.status(400).json({ message: 'Trailblazer already exists' });
+    }
+
+    // Aggiungi il nuovo Trailblazer all'array
+    trailblazers.push(newTrailblazer);
+
+    // Scrivi l'aggiornamento nel file JSON
+    fs.writeFile(trailblazerDataPath, JSON.stringify(trailblazers, null, 2), 'utf8', (err) => {
+      if (err) {
+        return res.status(500).json({ message: 'Error saving trailblazer data' });
+      }
+
+      res.status(201).json({ message: 'Trailblazer added successfully' });
+    });
+  });
+});
+
+// Rotta POST per aggiungere più Trailblazers tramite CSV
+app.post('/api/trailblazers/more', (req, res) => {
+  const newTrailblazers = req.body;
+
+  // Leggi il file JSON esistente
+  fs.readFile(trailblazerDataPath, 'utf8', (err, data) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error reading trailblazer data' });
+    }
+
+    const trailblazers = JSON.parse(data);
+
+    // Filtra i nuovi trailblazers per evitare duplicati
+    const filteredNewTrailblazers = newTrailblazers.filter(newTrailblazer => {
+      return !trailblazers.some(tb => tb.id === newTrailblazer.id);
+    });
+
+    if (filteredNewTrailblazers.length === 0) {
+      return res.status(400).json({ message: 'No new Trailblazers to add' });
+    }
+
+    // Aggiungi i nuovi Trailblazers non duplicati all'array
+    trailblazers.push(...filteredNewTrailblazers);
+
+    // Scrivi l'aggiornamento nel file JSON
+    fs.writeFile(trailblazerDataPath, JSON.stringify(trailblazers, null, 2), 'utf8', (err) => {
+      if (err) {
+        return res.status(500).json({ message: 'Error saving trailblazer data' });
+      }
+
+      res.status(201).json({ message: 'Trailblazers added successfully' });
+    });
   });
 });
 

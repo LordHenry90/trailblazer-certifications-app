@@ -35,9 +35,14 @@ const TrailblazerTable = ({ trailblazers }) => {
           </tr>
         </thead>
       <tbody>
-        {trailblazers.map((trailblazer, index) => (
+      {trailblazers.length === 0 ? (
+          <tr>
+            <td colSpan="4" >No Trailblazers Found</td>
+          </tr>
+        ) : (
+        trailblazers.map((trailblazer) => (
           <React.Fragment key={trailblazer.id}>
-            <tr key={index} className="slds-hint-parent">
+            <tr className="slds-hint-parent">
               <td >{trailblazer.firstName}</td>
               <td >{trailblazer.lastName}</td>
               <td >
@@ -64,7 +69,9 @@ const TrailblazerTable = ({ trailblazers }) => {
               </tr>
             )}
           </React.Fragment>
-        ))}
+        ))
+    )
+}
       </tbody>
         </table>
     </div>

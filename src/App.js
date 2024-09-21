@@ -7,108 +7,101 @@ import Footer from './components/Footer';
 import './App.css';
 
 const App = () => {
-  const [profiles, setProfiles] = useState([]);
-  const [allCertifications, setAllCertifications] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [trailblazers, setTrailblazers] = useState([]);
+  const [filteredTrailblazers, setFilteredTrailblazers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    const fetchProfiles = async () => {
+    const fetchTrailblazers  = async () => {
       try {
         const response = await axios.get('/api/trailblazers');
-        setProfiles(response.data);
+        setTrailblazers(response.data);
+        setFilteredTrailblazers(response.data);
       } catch (error) {
         console.error('Error fetching profiles:', error);
       }
     };
 
-    fetchProfiles();
+    fetchTrailblazers();
   }, []);
 
-  useEffect(() => {
-    const fetchCertifications = async () => {
-      const certifications = [];
-      for (const trailblazer of profiles) {
-        try {
-          const response = await axios.get(`/api/trailblazer/${trailblazer.id}/certifications`);
-          const trailblazerCertifications = response.data.certificationsList.map(cert => ({
-            firstName: trailblazer.firstName,
-            lastName: trailblazer.lastName,
-            profileUrl: trailblazer.profileUrl,
-            ...cert
-          }));
-          certifications.push(...trailblazerCertifications);
-        } catch (error) {
-          console.error(`Error fetching certifications for ${trailblazer.firstName} ${trailblazer.lastName}:`, error);
-        }
-      }
-      setAllCertifications(certifications);
-    };
-
-    fetchCertifications();
-  }, [profiles]);
 
   const handleExportCSV = () => {
-    const fields = ['firstName', 'lastName', 'profileUrl', 'title', 'certificationImageUrl', 'dateCompleted', 'certificationStatus', 'certificationUrl', 'description', 'dateExpired'];
-    const json2csvParser = new Parser({ fields });
-    const csv = json2csvParser.parse(allCertifications);
-    
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.setAttribute('download', 'trailblazers_certifications.csv');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  const handleAddNew = async (newTrailblazer) => {
-    const updatedProfiles = [...profiles, newTrailblazer];
-    setProfiles(updatedProfiles);
     try {
-      await axios.post('/api/trailblazers', updatedProfiles);
+      // Campi che vogliamo includere nel CSV
+      const fields = ['id', 'firstName', 'lastName', 'profileUrl'];
+      const json2csvParser = new Parser({ fields });
+  
+      // Converte i dati in formato CSV
+      const csv = json2csvParser.parse(trailblazers);
+  
+      // Crea un blob dal CSV
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', 'trailblazers.csv');
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     } catch (error) {
-      console.error('Error saving new trailblazer:', error);
+      console.error('Error exporting CSV:', error);
+      alert('Error exporting CSV');
     }
   };
 
-  const handleAddMore = async (data) => {
-    const newTrailblazers = data.map(item => ({
-      id: item.id,
-      firstName: item.firstName,
-      lastName: item.lastName,
-      profileUrl: item.profileUrl
-    }));
-    const updatedProfiles = [...profiles, ...newTrailblazers];
-    setProfiles(updatedProfiles);
+  const handleAddNew = async (values) => {
     try {
-      await axios.post('/api/trailblazers', updatedProfiles);
+      const response = await axios.post('/api/trailblazers', values);
+  
+      alert(response.data.message);
+  
+      // Aggiorna lo stato locale
+      setTrailblazers((prevTrailblazers) => [...prevTrailblazers, values]);
+      setFilteredTrailblazers((prevTrailblazers) => [...prevTrailblazers, values]);
     } catch (error) {
-      console.error('Error saving new trailblazers:', error);
+      console.error('Error adding new trailblazer:', error);
+      alert('Error adding new trailblazer');
     }
   };
 
+  const handleAddMore = async (dataFromCSV) => {
+    try {
+      const response = await axios.post('/api/trailblazers/more', dataFromCSV);
+  
+      alert(response.data.message);
+  
+      // Aggiorna lo stato locale
+      setTrailblazers((prevTrailblazers) => [...prevTrailblazers, ...dataFromCSV]);
+      setFilteredTrailblazers((prevTrailblazers) => [...prevTrailblazers, ...dataFromCSV]);
+    } catch (error) {
+      console.error('Error adding trailblazers from CSV:', error);
+      alert('Error adding trailblazers from CSV');
+    }
+  };
+
+  // Funzione per gestire il cambiamento nella ricerca
   const handleSearch = (value) => {
     setSearchTerm(value);
+    const filtered = trailblazers.filter((tb) =>
+      `${tb.firstName} ${tb.lastName}`.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredTrailblazers(filtered);
   };
-
-  const filteredProfiles = profiles.filter(profile =>
-    profile.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    profile.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    profile.profileUrl.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   return (
     <div className="App slds-p-around_medium">
+      {/* Action Menu */}
       <ActionMenu
         onAddNew={handleAddNew}
         onAddMore={handleAddMore}
         onExportCSV={handleExportCSV}
         onSearch={handleSearch}
       />
-      {filteredProfiles.map((profile, index) => (
-        <TrailblazerTable trailblazer={profile} />
-      ))}
-	  <Footer />
+      {/* Tabella dei Trailblazers */}
+      <TrailblazerTable trailblazers={filteredTrailblazers} />
+	    <Footer />
     </div>
   );
 };
