@@ -9,7 +9,6 @@ import './App.css';
 const App = () => {
   const [trailblazers, setTrailblazers] = useState([]);
   const [filteredTrailblazers, setFilteredTrailblazers] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchTrailblazers  = async () => {
@@ -83,7 +82,6 @@ const App = () => {
 
   // Funzione per gestire il cambiamento nella ricerca
   const handleSearch = (value) => {
-    setSearchTerm(value);
     const filtered = trailblazers.filter((tb) =>
       `${tb.firstName} ${tb.lastName}`.toLowerCase().includes(value.toLowerCase())
     );
