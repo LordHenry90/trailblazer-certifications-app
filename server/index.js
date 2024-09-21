@@ -25,8 +25,8 @@ const saveToJSON = (data) => {
 
 // Funzione per confrontare le certificazioni e determinare se ci sono nuove certificazioni
 const getNewCertifications = (existingCertifications, newCertifications) => {
-  const existingTitles = existingCertifications.map(cert => cert.title);
-  return newCertifications.filter(cert => !existingTitles.includes(cert.title));
+  const existingTitles = existingCertifications.map(cert => cert.Title);
+  return newCertifications.filter(cert => !existingTitles.includes(cert.Title));
 };
 
 // API endpoint per ottenere i dati dei Trailblazers
