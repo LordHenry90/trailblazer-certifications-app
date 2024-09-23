@@ -18,7 +18,7 @@ const CertificationList = ({ trailblazer }) => {
         console.log(`Fetching certifications for trailblazer ID: ${trailblazer.id}`);
         const response = await axios.get(`/api/trailblazer/${trailblazer.id}/certifications`);
         console.log('API response:', response.data);
-        setCertifications(response.data.CertificationsList || []);
+        setCertifications(response.data || []);
         setLoading(false); // Disabilita l'indicatore di caricamento
       } catch (error) {
         console.error('Error fetching certifications:', error);
