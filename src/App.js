@@ -25,21 +25,65 @@ const App = () => {
   }, []);
 
 
-  const handleExportCSV = () => {
+  const handleExportCSV = async () => {
     try {
-      // Campi che vogliamo includere nel CSV
-      const fields = ['id', 'firstName', 'lastName', 'profileUrl'];
-      const json2csvParser = new Parser({ fields });
+      // Fetch all trailblazers and their certifications
+      const response = await axios.get('/api/trailblazers'); // Assicurati che questa rotta esista e restituisca i dati corretti
+      const trailblazers = response.data;
   
-      // Converte i dati in formato CSV
-      const csv = json2csvParser.parse(trailblazers);
+      // Struttura dei campi per l'export CSV
+      const fields = [
+        { label: 'First Name', value: 'firstName' },
+        { label: 'Last Name', value: 'lastName' },
+        { label: 'Profile URL', value: 'profileUrl' },
+        { label: 'Certification Title', value: 'certification.Title' },
+        { label: 'Certification Status', value: 'certification.CertificationStatus' },
+        { label: 'Date Completed', value: 'certification.DateCompleted' },
+        { label: 'Certification URL', value: 'certification.CertificationUrl' },
+        { label: 'Description', value: 'certification.Description' }
+      ];
+  
+      const csvData = [];
+  
+      // Itera su tutti i trailblazers e aggiungi le loro certificazioni al CSV
+      trailblazers.forEach(trailblazer => {
+        if (trailblazer.certifications && trailblazer.certifications.length > 0) {
+          trailblazer.certifications.forEach(certification => {
+            // Appiattisci i dati del trailblazer e delle certificazioni
+            csvData.push({
+              firstName: trailblazer.firstName,
+              lastName: trailblazer.lastName,
+              profileUrl: trailblazer.profileUrl,
+              certification // Aggiungi i dati delle certificazioni
+            });
+          });
+        } else {
+          // Se il trailblazer non ha certificazioni, crea comunque una riga con i dati base
+          csvData.push({
+            firstName: trailblazer.firstName,
+            lastName: trailblazer.lastName,
+            profileUrl: trailblazer.profileUrl,
+            certification: {
+              title: 'No certifications',
+              certificationStatus: '',
+              dateCompleted: '',
+              certificationUrl: '',
+              description: ''
+            }
+          });
+        }
+      });
+  
+      // Crea il CSV utilizzando json2csv
+      const json2csvParser = new Parser({ fields });
+      const csv = json2csvParser.parse(csvData);
   
       // Crea un blob dal CSV
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const link = document.createElement('a');
       const url = URL.createObjectURL(blob);
       link.setAttribute('href', url);
-      link.setAttribute('download', 'trailblazers.csv');
+      link.setAttribute('download', 'trailblazers_certifications.csv');
       link.style.visibility = 'hidden';
       document.body.appendChild(link);
       link.click();
