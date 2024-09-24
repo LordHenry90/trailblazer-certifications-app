@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CertificationDetails from './CertificationDetails';
-import TrailblazerProfile from './TrailblazerProfile';
 import './CertificationList.css';
 
 const CertificationList = ({ trailblazer }) => {
