@@ -54,11 +54,6 @@ const CertificationList = ({ trailblazer }) => {
   return (
     <div className="certification-list">
       {error && <p className="slds-text-color_error">{error}</p>}
-      <TrailblazerProfile
-        firstName={trailblazer.firstName}
-        lastName={trailblazer.lastName}
-        profileUrl={trailblazer.profileUrl}
-      />
       <table className="slds-table slds-table_bordered slds-table_cell-buffer slds-table_col-bordered">
         <thead>
           <tr className="slds-line-height_reset">
