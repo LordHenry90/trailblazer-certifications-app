@@ -129,7 +129,7 @@ app.get('/api/trailblazer/:id/certifications', async (req, res) => {
 
     try {
       // Chiamata all'API esterna per ottenere le certificazioni più aggiornate
-      const externalApiUrl = `https://go-trailhead-leaderboard-api.up.railway.app/trailblazer/${trailblazerId}/certifications`;
+      const externalApiUrl = `https://go-trailhead-api.up.railway.app/trailblazer/${trailblazerId}/certifications`;
       const externalResponse = await axios.get(externalApiUrl);
 
       if (externalResponse.data && Array.isArray(externalResponse.data.CertificationsList)) {
