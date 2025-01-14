@@ -14,10 +14,18 @@
     "certifications": []
   },
   {
+    "id": "mbarna",
+    "firstName": "Marco",
+    "lastName": "Barnà",
+    "profileUrl": "https://www.salesforce.com/trailblazer/mbarna",
+    "certifications": []
+  },
+  {
     "id": "enotaro",
     "firstName": "Enrico",
     "lastName": "Notaro",
     "profileUrl": "https://www.salesforce.com/trailblazer/enotaro",
     "certifications": []
   }
+  
 ]
