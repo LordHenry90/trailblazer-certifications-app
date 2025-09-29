@@ -1,26 +1,5 @@
 [
   {
-    "id": "upiscopo",
-    "firstName": "Umberto",
-    "lastName": "Piscopo",
-    "profileUrl": "https://www.salesforce.com/trailblazer/upiscopo",
-    "certifications": []
-  },
-  {
-    "id": "lorzo",
-    "firstName": "Lorenzo",
-    "lastName": "d'Aleo",
-    "profileUrl": "https://www.salesforce.com/trailblazer/lorzo",
-    "certifications": []
-  },
-  {
-    "id": "mbarna",
-    "firstName": "Marco",
-    "lastName": "Barnà",
-    "profileUrl": "https://www.salesforce.com/trailblazer/mbarna",
-    "certifications": []
-  },
-  {
     "id": "enotaro",
     "firstName": "Enrico",
     "lastName": "Notaro",
